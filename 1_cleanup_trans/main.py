@@ -14,13 +14,8 @@ def delete_transactions_and_reports(year):
     # delete monthly amount report
     query = { "_id.year": year }
     bd_db.trans_monthly_amount.delete_many(query)
-    delete_monthly_amount(year)
 
     #TODO delete monthly taxes amount report
-
-def delete_monthly_amount(year):
-    query = { "_id.year": year }
-    bd_db.trans_monthly_amount.delete_many(query)
 
 if __name__ == "__main__":
     arg_year = sys.argv[1]
@@ -30,7 +25,7 @@ if __name__ == "__main__":
 
     delete_transactions_and_reports(year)
     print(ini_msg + " were deleted")
-    cmd = 'C:\\Users\\Vagner Nascimento\\pocs\\azure-batch\\code\\2_get_trans\\main.py ' + arg_year
-    os.system('"' + cmd + '"')
-    
-    #TODO how to call another python script?
+
+    # call next step to get transactions
+    cmd = "python 2_get_trans\\main.py " + arg_year
+    os.system(cmd)

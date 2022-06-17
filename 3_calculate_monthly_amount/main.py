@@ -27,10 +27,11 @@ if __name__ == "__main__":
     arg_month = sys.argv[2]
     year = int(arg_year)
     month = int(arg_month)
+    msg_end = "for " + arg_year + "/" + arg_month
 
-    print("getting total amount for " + arg_month + "/" + arg_year)
+    print("getting total amount " + msg_end)
     total_amount = get_transactions_total_amount(year, month)
 
-    print("saving total amount")
+    print("saving total amount " + msg_end)
     save_total_amount(total_amount)
-    print("total amount saved")
+    print("total amount saved " + msg_end)

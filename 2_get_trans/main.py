@@ -1,4 +1,4 @@
-import sys
+import sys, os, asyncio
 from datetime import datetime
 
 def get_transactions(year):
@@ -22,14 +22,29 @@ def save_transactions(trans = []):
     bd_db = get_bigdata_db()
     bd_db.transactions.insert_many(trans)
 
-if __name__ == "__main__":
-    arg = sys.argv[1]
-    year = int(arg)
+def calculate_monthly_amount(year, month):
+    cmd = "python 3_calculate_monthly_amount\\main.py " + year + " " + month
+    os.system(cmd)
 
-    print("getting transactions for the year " + arg)
+# calculates total amount of all months year asynchronous
+async def calculate_monthly_amounts(year):
+    threads = []
+    for month in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]:
+        threads.append(asyncio.to_thread(calculate_monthly_amount, year = year, month = month))
+    
+    asyncio.gather(*threads)
+
+if __name__ == "__main__":
+    arg_year = sys.argv[1]
+    year = int(arg_year)
+
+    print("getting transactions for the year " + arg_year)
     trans = get_transactions(year)
     print("transactions goten: " + str(len(trans)))
 
     print("copying transactions for big data database")
     save_transactions(trans)
     print("transactions copied for big data database")
+
+    # call next steps async
+    asyncio.run(calculate_monthly_amounts(arg_year))

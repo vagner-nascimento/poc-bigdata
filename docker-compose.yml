@@ -8,7 +8,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ~/pocs/azure-batch/code/data/mongodb_trans:/data/db
+      - ./data/mongodb_trans:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rpwd
@@ -21,7 +21,7 @@ services:
     ports:
       - 27018:27017
     volumes:
-      - ~/pocs/azure-batch/code/data/mongodb_bigdata:/data/db
+      - ./data/mongodb_bigdata:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rpwd
