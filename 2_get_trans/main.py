@@ -46,5 +46,5 @@ if __name__ == "__main__":
     save_transactions(trans)
     print("transactions copied for big data database")
 
-    # call next steps async
+    # call next steps async: calculate total amount
     asyncio.run(calculate_monthly_amounts(arg_year))

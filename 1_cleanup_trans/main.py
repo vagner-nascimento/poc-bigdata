@@ -10,12 +10,11 @@ def delete_transactions_and_reports(year):
     end = datetime(year, 12, 31, 23, 59, 59, 999)
     query = {"$and":[{"datetime_transaction":{"$gte":start}},{"datetime_transaction":{"$lte":end}}]}
     bd_db.transactions.delete_many(query)
-    
+
     # delete monthly amount report
     query = { "_id.year": year }
     bd_db.trans_monthly_amount.delete_many(query)
-
-    #TODO delete monthly taxes amount report
+    bd_db.trans_monthly_taxes_amount.delete_many(query)
 
 if __name__ == "__main__":
     arg_year = sys.argv[1]
@@ -26,6 +25,6 @@ if __name__ == "__main__":
     delete_transactions_and_reports(year)
     print(ini_msg + " were deleted")
 
-    # call next step to get transactions
+    # call next step: get transactions
     cmd = "python 2_get_trans\\main.py " + arg_year
     os.system(cmd)

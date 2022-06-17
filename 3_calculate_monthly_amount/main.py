@@ -1,4 +1,4 @@
-import sys, calendar
+import sys, calendar, os
 from datetime import datetime
 
 def get_transactions_total_amount(year, month):
@@ -35,3 +35,7 @@ if __name__ == "__main__":
     print("saving total amount " + msg_end)
     save_total_amount(total_amount)
     print("total amount saved " + msg_end)
+
+    # call next step: calculate taxes over total amount
+    cmd = "python 4_calculate_monthly_taxes_amount\\main.py " + arg_year + " " + arg_month
+    os.system(cmd)

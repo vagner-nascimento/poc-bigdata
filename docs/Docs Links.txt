@@ -1,0 +1,17 @@
+Overview:
+https://azure.microsoft.com/pt-br/services/batch/#overview
+
+Docs:
+https://docs.microsoft.com/pt-br/azure/batch/
+
+Technical Overview:
+https://docs.microsoft.com/en-us/azure/batch/batch-technical-overview
+
+Cotas e limites:
+https://docs.microsoft.com/pt-br/azure/batch/batch-quota-limit
+
+Jobs and tasks:
+https://docs.microsoft.com/pt-br/azure/batch/jobs-and-tasks
+
+Implantar aplicativos em nós de computação com pacotes de aplicativos do Lote:
+https://docs.microsoft.com/pt-br/azure/batch/batch-application-packages
