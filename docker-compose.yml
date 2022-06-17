@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db_transactions_read:
+    image: mongo:5.0.6-focal
+    container_name: db_transactions_read
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/pocs/azure-batch/code/data/mongodb_trans:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rpwd
+      MONGO_INITDB_DATABASE: app
+  
+  db_big_data:
+    image: mongo:5.0.6-focal
+    container_name: db_big_data
+    restart: always
+    ports:
+      - 27018:27017
+    volumes:
+      - ~/pocs/azure-batch/code/data/mongodb_bigdata:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rpwd
+      MONGO_INITDB_DATABASE: app
+
+#  mongo-express:
+#    image: mongo-express
+#    restart: always
+#    ports:
+#     - 8081:8081
+#    environment:
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: rpwd
+#      ME_CONFIG_MONGODB_URL: mongodb://root:rpwd@db:27017/
