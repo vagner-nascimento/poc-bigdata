@@ -1,3 +1,4 @@
+# This connections should be a lib and the strings parametrized
 from pymongo import MongoClient
 
 def get_db(name, port):
