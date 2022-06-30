@@ -1,0 +1,74 @@
+- Use pure functions instead of objects with methods.
+F.Y.K: Pure functions means that only receives data, process and return another data without change original received data or any other context data.
+
+- Functions should specify types for both received and returned data. If doesn't has a return, "None" should by declared.
+F.I: 
+    def delete_transactions(year: int) -> None:
+        db["transactions"].delete_many({ year: year })
+
+- Custom types, like structs, with many keys/values should represented by a class that has only its contructor receiving and filling all necessary data.
+
+- Project strutcture:
+    - .gitignore
+    - docker-compose.yml
+    - README.md
+    - 1_first_script\
+    - 2_second_script\
+    - 3_third_script\
+    - and so on...
+
+- Script strutcture:
+    - 1_first_script\
+        - requirements.txt
+        - main.py
+        - functions/
+                - data/ -> functions that interate with some data colletion/view
+                    - transactions.py
+                    - monthly_amount.py
+                    - etc.py
+        - models/
+            - transaction.py
+            - etc.py
+
+    #### explanning ####
+    - requirements.txt -> the requirements file, each project's function should have it own.
+    - main.py -> the startup script which calls functions in order to acomplish its goals.
+    - functions/ -> functions folder.
+    - functions/data -> where the functions that interate over data should be.
+    - funtions/data/transactions.py -> contains functions that interate over a data domain, calls necessary infra/lib resources to interate over this data.
+    - models/ -> custom data models folder
+    - models/transaction.py -> class that represents this data model
+
+- Log each step of the processing with necessary data to help in future errors debugging.
+
+- Use "ctypes.Array" to represent arrays and lists.
+
+- Asynchronous processment should be called by main file using "asyncio.run". The function called, which will be into functions folder, should be async.
+This async function will make the fork of the processment threads, by calling another function to execute each iteration into another thread.
+The threads should by create by using "asyncio.to_thread" and stored into an array of threads.
+This array of threads will be sent to "asyncio.gather" to wait the end of all threads and take its results (if necessary).
+F.I.: The sample below demonstrate the async call to calculate the amounth of each month of an year:
+-- main.py file:
+import asyncio
+from functions.calc.transactions import calculate_monthly_amounts
+
+if __name__ == "__main__":
+    year = 2021
+    print("starting monthly amounts calculation asynchronous for each month of the year " + str_year)
+    asyncio.run(calculate_monthly_amounts(year))
+    print("monthly amounts calculated for each month of the year " + str_year)
+-- main.py END:
+
+-- functions/calc/transactions.py file:
+import asyncio, os
+
+def calculate_monthly_amount(year: int, month: int) -> None:
+    cmd = "python 3_calculate_monthly_amount\\main.py " + str(year) + " " + str(month)
+    os.system(cmd)
+
+async def calculate_monthly_amounts(year: int) -> None:
+    threads = []
+    for month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]:
+        threads.append(asyncio.to_thread(calculate_monthly_amount, year = year, month = month))
+    
+    asyncio.gather(*threads)
