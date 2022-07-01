@@ -14,8 +14,7 @@ if __name__ == "__main__":
     save_transactions_into_bigdata(trans)
     print("transactions saved into big data database")
 
-    # TODO: describe async pattern
-    # call next steps async: calculate total amount
-    print("starting monthly amounts calculation asynchronous for each month of the year " + str_year)
+    # call next steps async: calculate total monthly amount
+    print("calling monthly amounts calculation asynchronous for each month of the year " + str_year)
     asyncio.run(calculate_monthly_amounts(year))
     print("monthly amounts calculated for each month of the year " + str_year)

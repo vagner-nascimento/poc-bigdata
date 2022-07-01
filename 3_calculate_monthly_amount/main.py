@@ -1,41 +1,25 @@
-import sys, calendar, os
-from datetime import datetime
+import sys
 
-def get_transactions_total_amount(year, month):
-    last_day = calendar.monthrange(year, month)[1]
-    start = datetime(year, month, 1, 0, 0, 0, 0)
-    end = datetime(year, month, last_day, 23, 59, 59, 999)
-    query = {"$and":[{"datetime_transaction":{"$gte":start}},{"datetime_transaction":{"$lte":end}}]}
-
-    from db import get_bigdata_db
-    bd_db = get_bigdata_db()
-    cur = bd_db.transactions.find(query)
-
-    total_amount = 0
-    for it in cur:
-        total_amount = total_amount + it["amount"]
-    
-    return { "_id": { "year": year, "month": month }, "totalAmount": total_amount }
-
-def save_total_amount(total):
-    from db import get_bigdata_db
-    bd_db = get_bigdata_db()
-    bd_db.trans_monthly_amount.insert_one(total)
+from functions.data.transactions import get_transactions
+from functions.data.monthly_amount import save_monthly_amount
+from functions.calc.transactions import calculate_monthly_amount, calculate_monthly_taxes
 
 if __name__ == "__main__":
     arg_year = sys.argv[1]
     arg_month = sys.argv[2]
     year = int(arg_year)
     month = int(arg_month)
-    msg_end = "for " + arg_year + "/" + arg_month
 
-    print("getting total amount " + msg_end)
-    total_amount = get_transactions_total_amount(year, month)
+    print("getting transactions of {}/{}".format(year, month))
+    trans = get_transactions(year, month)
 
-    print("saving total amount " + msg_end)
-    save_total_amount(total_amount)
-    print("total amount saved " + msg_end)
+    print("calculating total amount of {}/{}".format(year, month))
+    total_amount = calculate_monthly_amount(trans)
 
-    # call next step: calculate taxes over total amount
-    cmd = "python 4_calculate_monthly_taxes_amount\\main.py " + arg_year + " " + arg_month
-    os.system(cmd)
+    print("saving total amount of {}/{}".format(year, month))
+    month_amount = save_monthly_amount(year, month, total_amount)
+    print("total amount of {}/{} saved".format(year, month))
+    print(month_amount.__dict__)
+
+    print("calling next step: calculate monthly taxes for {}/{}".format(year, month))
+    calculate_monthly_taxes(year, month)
