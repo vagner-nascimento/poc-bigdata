@@ -11,4 +11,4 @@ def calculate_monthly_amount(trans: Cursor) -> int:
 
 def calculate_monthly_taxes(year: int, month: int) -> None:
     cmd = "python 4_calculate_monthly_taxes_amount\\main.py {} {}".format(year, month)
-    #os.system(cmd) TODO: uncoment and refactor script 4
+    os.system(cmd)

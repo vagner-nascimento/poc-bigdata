@@ -7,6 +7,6 @@ COLLECTION_NAME = "trans_monthly_amount"
 
 def save_monthly_amount(year: int, month: int, amount: int) -> MonthlyAmount:
     month_amount = MonthlyAmount(year, month, amount)
-    bd_db.trans_monthly_amount.insert_one(month_amount.__dict__)
+    bd_db[COLLECTION_NAME].insert_one(month_amount.__dict__)
 
     return month_amount
