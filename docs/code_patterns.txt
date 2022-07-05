@@ -47,7 +47,9 @@ F.I:
 This async function will make the fork of the processment threads, by calling another function to execute each iteration into another thread.
 The threads should by create by using "asyncio.to_thread" and stored into an array of threads.
 This array of threads will be sent to "asyncio.gather" to wait the end of all threads and take its results (if necessary).
+
 F.I.: The sample below demonstrate the async call to calculate the amounth of each month of an year:
+
 -- main.py file:
 import asyncio
 from functions.calc.transactions import calculate_monthly_amounts
@@ -72,3 +74,4 @@ async def calculate_monthly_amounts(year: int) -> None:
         threads.append(asyncio.to_thread(calculate_monthly_amount, year = year, month = month))
     
     asyncio.gather(*threads)
+-- functions/calc/transactions.py END:
