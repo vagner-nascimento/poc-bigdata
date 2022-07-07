@@ -12,17 +12,15 @@ F.I:
     - .gitignore
     - docker-compose.yml
     - README.md
-    - 1_first_script\
-    - 2_second_script\
-    - 3_third_script\
-    - and so on...
-
-- Script strutcture:
-    - 1_first_script\
-        - requirements.txt
-        - main.py
+    - requirements.txt
+    - main.py
+    - src/
         - functions/
                 - data/ -> functions that interate with some data colletion/view
+                    - transactions.py
+                    - monthly_amount.py
+                    - etc.py
+                - calc/
                     - transactions.py
                     - monthly_amount.py
                     - etc.py
@@ -33,11 +31,11 @@ F.I:
     #### explanning ####
     - requirements.txt -> the requirements file, each project's function should have it own.
     - main.py -> the startup script which calls functions in order to acomplish its goals.
-    - functions/ -> functions folder.
-    - functions/data -> where the functions that interate over data should be.
-    - funtions/data/transactions.py -> contains functions that interate over a data domain, calls necessary infra/lib resources to interate over this data.
-    - models/ -> custom data models folder
-    - models/transaction.py -> class that represents this data model
+    - src/functions/ -> functions folder.
+    - src/functions/data -> where the functions that interate over data should be.
+    - src/funtions/data/transactions.py -> contains functions that interate over a data domain, calls necessary infra/lib resources to interate over this data.
+    - src/models/ -> custom data models folder
+    - src/models/transaction.py -> class that represents this data model
 
 - Log each step of the processing with necessary data to help in future errors debugging.
 
